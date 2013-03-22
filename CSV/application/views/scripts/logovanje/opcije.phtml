@@ -1,0 +1,20 @@
+<br /><br />
+<div id="view-content">
+	
+</div>
+<?php
+
+if($this->Uloga=='admin'){
+    echo "
+        <a href='unos'>Unos novih podataka</a>
+        <br/>
+        <a href='izlistavanje'>Izlistavanje podataka</a>
+    ";
+}else if($this->Uloga=='user'){
+    echo"
+        <a href='izlistavanje'>Izlistavanje podataka</a>
+    ";
+}
+
+
+

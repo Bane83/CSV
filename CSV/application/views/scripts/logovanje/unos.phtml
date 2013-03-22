@@ -1,0 +1,48 @@
+<br /><br />
+<?php
+
+echo $this->upload_form;
+
+?>
+
+<form name="mapiranje" action="count" method="post" >
+    <table border="1">
+      
+<?php
+if($this->data !=""){
+    
+//Prikaz forme za mapiranje. S leve strane su nazivi kolona iz .csv fajla, s desne strane dropdown liste s nazivima kolona iz baze.
+    
+    echo"<tr><th>Kolone iz .CSV fajla</th><th>Kolone u tabeli u DB</th></tr>";
+    
+    foreach($this->data as $d){
+        
+        echo"
+            
+        <tr>
+        <td>".$d."</td>
+        <td>
+            <select><option value='naziv_proizvoda'>Naziv proizvoda</option>
+                    <option value='cena_proizvoda'>Cena proizvoda</option>
+                    <option value='kolicina'>Kolicina</option>
+                    <option value='kupac'>Kupac</option>
+                    <option value='pdv'>PDV</option>
+                    <option value='ukupna_cena'>Ukupna cena</option>
+                    <option value='datum'>Datum</option>
+                    <option value='@ignore'>Zanemari</option>
+            </select>            
+         </td>
+         </tr>
+        ";
+        
+    }
+    echo"
+     </table> 
+     <br/>
+        <input type='submit' name='submit' value='Mapiraj'>   
+    ";
+    
+}
+?>
+    
+</form>
