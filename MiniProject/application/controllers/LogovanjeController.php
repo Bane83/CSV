@@ -9,16 +9,7 @@ class LogovanjeController extends Zend_Controller_Action
     }
 
     public function indexAction()
-    {
-        $prodaja = Application_Model_DbTable_Prodaja::proba(1);
-        
-        echo $prodaja;
-        
-       
-        
-        
-                
-        
+    {        
         
         
     }
@@ -102,8 +93,62 @@ class LogovanjeController extends Zend_Controller_Action
         
     }
 
+    public function izlistavanjeAction()
+    {
+        // action body
+    }
+
+    public function unosAction()
+    {
+        
+        $upload_form=new Application_Form_Upload();
+        
+        //U koliko je unet .csv fajl pronalazi se u tmp folderu, cita se prvi red s nazivom kolona i prosledjuju u view.
+        
+        $request=$this->getRequest();
+        
+        if($request->isPost()){            
+            
+            if($upload_form->isValid($this->_request->getPost())){
+                
+            $file=$_FILES['file']['tmp_name'];
+               
+                if (($handle = fopen($file, "r")) !== FALSE) {
+                       
+                       if(($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+
+                           $this->view->data=$data;
+
+                       }
+                }    
+            }
+            
+            
+        }else{
+   
+        //U koliko nije kliknuto na dugme unos prikazuje se forma za unos.
+            
+        $this->view->upload_form=$upload_form;
+        
+        }
+        
+        
+        
+    }
+
+    public function countAction()
+    {
+        // action body
+    }
+
 
 }
+
+
+
+
+
+
 
 
 
