@@ -116,6 +116,7 @@ class LogovanjeController extends Zend_Controller_Action
                 
             $file=$_FILES['file']['tmp_name'];
             $file_name=$_FILES['file']['name'];
+            
             $folder="C:/xampp/htdocs/Zend/CSV/application/files/";
             
             
@@ -127,10 +128,11 @@ class LogovanjeController extends Zend_Controller_Action
                        if(($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                            
                            
-
+                           //Prosledjivanje prvog reda iz CSV fajla (red koji sadrzi nazive kolona)
                            $this->view->data=$data;
+                           //Prosledjivanje imena fajla koji treba da se uploaduje
                            $this->view->file=$file_name;
-                           
+                           //Upload fajla
                            move_uploaded_file($file,$folder.$file_name);
                                       
                                
