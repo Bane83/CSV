@@ -3,6 +3,8 @@
 class LogovanjeController extends Zend_Controller_Action
 {
 
+    
+    
     public function init()
     {
         /* Initialize action controller here */
@@ -101,6 +103,7 @@ class LogovanjeController extends Zend_Controller_Action
     public function unosAction()
     {
         
+        
         $upload_form=new Application_Form_Upload();
         
         //U koliko je unet .csv fajl pronalazi se u tmp folderu, cita se prvi red s nazivom kolona i prosledjuju u view.
@@ -112,16 +115,31 @@ class LogovanjeController extends Zend_Controller_Action
             if($upload_form->isValid($this->_request->getPost())){
                 
             $file=$_FILES['file']['tmp_name'];
+            $file_name=$_FILES['file']['name'];
+            $folder="C:/xampp/htdocs/Zend/CSV/application/files/";
+            
+            
+            
+            echo $file_name;
                
                 if (($handle = fopen($file, "r")) !== FALSE) {
                        
                        if(($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                           
+                           
 
                            $this->view->data=$data;
+                           $this->view->file=$file_name;
+                           
+                           move_uploaded_file($file,$folder.$file_name);
+                                      
+                               
+                           }
+                           
 
                        }
                 }    
-            }
+            
             
             
         }else{
@@ -138,12 +156,47 @@ class LogovanjeController extends Zend_Controller_Action
 
     public function countAction()
     {
-        // action body
+        $request=$this->getRequest();
+        
+        $post=$request->getPost();
+        
+        if(isset($post['submit'])){
+            
+               $op=$request->getParam('kolone');
+               
+               $file=$request->getParam('file');
+               $folder="C:/xampp/htdocs/Zend/CSV/application/files/";
+               
+               $kol=implode(',', $op);
+               
+                             
+               $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+               
+                             
+               $sql="LOAD DATA INFILE '".$folder.$file."' INTO TABLE prodaja FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES (".$kol.")" ;
+               
+               $db->query($sql);
+               
+               $this->view->op=$op;
+               $this->view->kol=$kol;
+               $this->view->file=$file;
+               
+              
+                       
+               
+               
+                
+            }
+            
+           
+            
+        
+            
+         
     }
 
 
 }
-
 
 
 
