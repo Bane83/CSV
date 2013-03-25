@@ -120,7 +120,7 @@ class LogovanjeController extends Zend_Controller_Action
             
             
             
-            echo $file_name;
+            //echo $file_name;
                
                 if (($handle = fopen($file, "r")) !== FALSE) {
                        
@@ -162,24 +162,28 @@ class LogovanjeController extends Zend_Controller_Action
         
         if(isset($post['submit'])){
             
+               //Dohvatanja svih vrednosti iz dropdown (koje su prethodno mapirane)
                $op=$request->getParam('kolone');
                
+               //Dohvatanje naziva fajla iz hidden polja
                $file=$request->getParam('file');
+               
                $folder="C:/xampp/htdocs/Zend/CSV/application/files/";
                
+               //Kreiranje stringa iz niza uz odvajanje clanova niza zarezom
                $kol=implode(',', $op);
                
                              
                $db = Zend_Db_Table_Abstract::getDefaultAdapter();
                
-                             
+               //Unos podataka iz CSV fajla u tabelu prodaja po zadatom redu kolona (izvrseno mapiranje)                     
                $sql="LOAD DATA INFILE '".$folder.$file."' INTO TABLE prodaja FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES (".$kol.")" ;
                
                $db->query($sql);
                
-               $this->view->op=$op;
-               $this->view->kol=$kol;
-               $this->view->file=$file;
+               //$this->view->op=$op;
+               //$this->view->kol=$kol;
+               //$this->view->file=$file;
                
               
                        
